@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { StatusBadge } from "@/components/StatusBadge";
 import { AssignDriverModal } from "@/components/AssignDriverModal";
 import { OrderActions } from "@/components/OrderActions";
+import { DeleteOrderButton } from "@/components/DeleteOrderButton";
 import Link from "next/link";
 
 export default async function OrderDetailPage({
@@ -99,6 +100,15 @@ export default async function OrderDetailPage({
           currentStatus={order.status}
           statusOptions={statusOptions}
         />
+      </div>
+
+      {/* Danger zone */}
+      <div className="bg-white rounded-lg border border-red-200 p-6 space-y-4">
+        <h3 className="font-semibold text-sm text-red-500 uppercase tracking-wide">危険な操作</h3>
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-muted-foreground">この注文を削除します。この操作は取り消せません。</p>
+          <DeleteOrderButton orderId={order.id} />
+        </div>
       </div>
     </div>
   );
