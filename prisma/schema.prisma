@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(DRIVER)
+  driver    Driver?
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  DRIVER
+}
+
+model Driver {
+  id      String       @id @default(cuid())
+  userId  String       @unique
+  user    User         @relation(fields: [userId], references: [id])
+  phone   String
+  vehicle String
+  status  DriverStatus @default(AVAILABLE)
+  orders  Order[]
+}
+
+enum DriverStatus {
+  AVAILABLE
+  BUSY
+  OFFLINE
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  title           String
+  pickupAddress   String
+  deliveryAddress String
+  memo            String?
+  status          OrderStatus @default(PENDING)
+  driver          Driver?     @relation(fields: [driverId], references: [id])
+  driverId        String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  ASSIGNED
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
+}
