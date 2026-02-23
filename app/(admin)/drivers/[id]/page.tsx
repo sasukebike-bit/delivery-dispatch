@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { StatusBadge } from "@/components/StatusBadge";
 import { OrderCard } from "@/components/OrderCard";
 import { DriverEditForm } from "@/components/DriverEditForm";
+import { DeleteDriverButton } from "@/components/DeleteDriverButton";
 import Link from "next/link";
 
 export default async function DriverDetailPage({
@@ -53,6 +54,15 @@ export default async function DriverDetailPage({
       <div className="bg-white rounded-lg border p-6">
         <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide mb-4">編集</h3>
         <DriverEditForm driver={driver} />
+      </div>
+
+      {/* Danger zone */}
+      <div className="bg-white rounded-lg border border-red-200 p-6 space-y-4">
+        <h3 className="font-semibold text-sm text-red-500 uppercase tracking-wide">危険な操作</h3>
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-muted-foreground">このドライバーを削除します。この操作は取り消せません。</p>
+          <DeleteDriverButton driverId={driver.id} />
+        </div>
       </div>
 
       {/* Orders */}
