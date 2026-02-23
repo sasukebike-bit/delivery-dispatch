@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { StatusBadge } from "@/components/StatusBadge";
 import { DriverOrderActions } from "@/components/DriverOrderActions";
+import Link from "next/link";
 
 export default async function DriverOrdersPage() {
   const session = await auth();
@@ -40,7 +41,9 @@ export default async function DriverOrdersPage() {
           <div key={order.id} className="bg-white rounded-lg border p-4 space-y-3">
             <div className="flex items-start justify-between">
               <div>
-                <p className="font-medium">{order.title}</p>
+                <Link href={`/driver/orders/${order.id}`} className="font-medium hover:underline">
+                  {order.title}
+                </Link>
                 <p className="text-sm text-muted-foreground mt-1">集荷: {order.pickupAddress}</p>
                 <p className="text-sm text-muted-foreground">配達: {order.deliveryAddress}</p>
                 {order.memo && (
@@ -68,7 +71,9 @@ export default async function DriverOrdersPage() {
             <div key={order.id} className="bg-white rounded-lg border p-4 opacity-70">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="font-medium">{order.title}</p>
+                  <Link href={`/driver/orders/${order.id}`} className="font-medium hover:underline">
+                    {order.title}
+                  </Link>
                   <p className="text-sm text-muted-foreground mt-1">{order.deliveryAddress}</p>
                 </div>
                 <StatusBadge status={order.status} type="order" />
